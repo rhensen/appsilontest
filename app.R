@@ -5,10 +5,7 @@ library(sf)
 library(leaflet)
 library(shiny.semantic)
 
-#setwd("Desktop/appsilon/")
-ship<- read_csv("ships.csv")
-s.sf<- st_as_sf(ship, coords = c("LON", "LAT"), 
-                crs = 4326, agr = "constant")
+ship<- readRDS("ship.rds")
 
 mod1<- function(input){
     df<-ship %>% filter(ship_type == input) %>% distinct(SHIPNAME)
@@ -49,9 +46,9 @@ theme = "cerulean",
                         selected =  "Cargo", multiple=F
             )), top_right=segment(h2("Ship Name Choice"),
             selectInput("ship_name", "Select Ship Name",choices=mod1("Cargo"),  multiple=F
-            )), bottom= segment(h2("Map Output", align="center"), h3("hover for more info", align="center"),
+            )), bottom= segment(h2("Longest Trip of the Ship Selected", align="center"), h3("hover for trip info", align="center"),
     # outputs),
-            leafletOutput("map",height = 600)
+            leafletOutput("map", height = 600)
         )))
 
 # Define server logic required to draw a histogram
